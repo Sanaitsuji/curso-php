@@ -11,7 +11,7 @@
         echo "El valor registrado es $param";
     }else{
         $param = strtoupper(bin2hex(random_bytes(10)));
-        echo "<b>$param</b>";
+        echo "El texto generado autimaticamente es: <b>$param</b>";
     }
 
 ?>

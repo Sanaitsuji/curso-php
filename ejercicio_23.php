@@ -1,33 +1,23 @@
-<h1>Ejercicio 22</h1>
 <?php
 
     /* Crea una sesión que vaya aumentando su valor en 
     uno o disminuyendo en uno en función de si el
-    parámetro GET "counter" está a uno a cero.*/
+    parámetro GET "counter" está en uno 0 cero.*/
 
-    function multiplication_table($number, $html = null){
-        if(!is_numeric($number)){
-            return "El valor ingresado '$number' no es un número válido.";
+    session_start();
+    echo "<h1>Ejercicio 22</h1>";
+    $_SESSION['counter'] = isset($_SESSION['counter']) ? $_SESSION['counter'] : 0;
+
+    if (isset($_GET['counter'])) {
+        if ($_GET['counter'] == 1) {
+            $_SESSION['counter']++;
+        } elseif ($_GET['counter'] == 0) {
+            $_SESSION['counter']--;
         }
-        $text_return = "<h2>Tabla de multiplicar del número $number</h2>";
-        $text_return .= "<table border='1'>";
-        $text_return .= "<tr><th>Multiplicación</th><th>Resultado</th></tr>";
+    }else{
+        echo "No se ha encontrado el parámetro 'counter'.";
+    }
 
-        for($i = 0; $i <= 10; $i++){
-            $result = $number * $i;
-            $text_return .= "<tr><th>$number x $i</th><th>$result</th></tr>";
-        }
-
-        $text_return .= "</table>";
-
-        if($html){
-            echo "Si es HTML :)";
-        }
-
-        return $text_return;
-    };
-    
-    $number = $_GET['number'] ?? '';
-    echo multiplication_table($number, true);
+    echo "Has visitado el sitio: " . $_SESSION['counter']." veces.";
 
 ?>

@@ -1,11 +1,10 @@
 <?php 
+include "includes/redirect.php";
 include "includes/header.php"; 
 
 $get_users_sql = "SELECT * FROM users;";
 $database_users = mysqli_query($database, $get_users_sql);
 ?>
-
-<p>Text del body en el index</p>
 
 <table class="table">
     <tr>

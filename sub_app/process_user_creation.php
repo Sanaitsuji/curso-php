@@ -49,10 +49,6 @@
         }else{
             echo "El rol debe ser diligenciado<br/>";
         }
-
-        if(isset($_FILES['image']) && !empty($_FILES['image']['name'])) {
-            echo "Se ha recibido una imagen.<br/>";
-        }
         
     } else {
         echo "<h2>No se han recibido datos.</h2>";

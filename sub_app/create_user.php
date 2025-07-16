@@ -1,3 +1,4 @@
+<?php include "includes/redirect.php";?>
 <?php require_once 'includes/header.php'?>
 
 <?php
@@ -8,7 +9,7 @@ function validate_input($field, $errors){
     return '';
 }
 
-function set_value_on_errors($field, $errors, $textarea=false){
+function set_value_fields($field, $errors, $textarea=false){
     if(isset($errors) && count($errors) >= 1 && isset($_POST[$field])){
         if($textarea){
             echo $_POST[$field];
@@ -73,14 +74,32 @@ if(isset($_POST['submit'])) {
         $errors["role"] = "El rol debe ser diligenciado<br/>";
     }
 
+    $image = null;
     if(isset($_FILES['image']) && !empty($_FILES['image']['name'])) {
-        echo "Se ha recibido una imagen.<br/>";
+
+        if(!is_dir('uploads')){
+            $dir = mkdir('uploads', 0777, true);
+        } else {
+            $dir = true;
+        }
+        
+        if($dir){
+            $file_name = time()."-".$_FILES['image']['name'];
+            $muf = move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/'.$file_name);
+
+            if ($muf){
+                $image = $file_name;
+            } else {
+                $errors['image'] = "Error al subir la imagen";
+            }
+        }
+
     }
 
     // Si no hay errores, insertar usuario en la base de datos
     if(count($errors) == 0){
-        $query_insert_user = "INSERT INTO users (name, surname, bio, email, password, role)
-        VALUES ('{$user_name}', '{$user_surname}', '{$user_bio}', '{$user_email}', '{$user_password}', '{$user_role}');";
+        $query_insert_user = "INSERT INTO users (name, surname, bio, email, password, role, image)
+        VALUES ('{$user_name}', '{$user_surname}', '{$user_bio}', '{$user_email}', '{$user_password}', '{$user_role}', '{$image}');";
         
         $insert_user = mysqli_query($database, $query_insert_user);
     }
@@ -97,25 +116,25 @@ if(isset($_POST['submit'])) {
 <form action="" method="POST" enctype="multipart/form-data">
 
     <label for="name">Nombre:
-        <input type="text" name="name" class="form-control" <?php set_value_on_errors('name', $errors);?>>
+        <input type="text" name="name" class="form-control" <?php set_value_fields('name', $errors);?>>
         <?php echo validate_input('name', $errors)?>
     </label>
     <br/>
 
     <label for="surname">Apellido:
-        <input type="text" name="surname" class="form-control" <?php set_value_on_errors('surname', $errors);?>>
+        <input type="text" name="surname" class="form-control" <?php set_value_fields('surname', $errors);?>>
         <?php echo validate_input("surname", $errors)?>
     </label>
     <br/>
 
     <label for="bio">Biografía:
-        <textarea name="bio" class="form-control"> <?php set_value_on_errors('bio', $errors, true);?></textarea>
+        <textarea name="bio" class="form-control"> <?php set_value_fields('bio', $errors, true);?></textarea>
         <?php echo validate_input("bio", $errors)?>
     </label>
     <br/>
 
     <label for="email">Email:
-        <input type="email" name="email" class="form-control" <?php set_value_on_errors('email', $errors);?>>
+        <input type="email" name="email" class="form-control" <?php set_value_fields('email', $errors);?>>
         <?php echo validate_input("email", $errors)?>
     </label>
     <br/>
@@ -141,7 +160,6 @@ if(isset($_POST['submit'])) {
     <br/>
 
     <input type="submit" value="Enviar" name="submit" class="btn btn-success"/>
-    <a href='index.php' class='btn btn-secondary'>Volver</a>
 
 </form>
 

@@ -1,4 +1,4 @@
-<h1>Ejercicio 27</h1>
+<h1>Ejercicio 30</h1>
 <?php
 
     /* Crea una página dinámica para mostrar el detalle

@@ -15,4 +15,6 @@
         <div class="container">
             <h1>Web con PHP</h1>
             <hr/>
+            <a href="create_user.php" class="btn btn-primary">Crear usuario</a>
+            <hr/>
             <?php $var_test = "Contenido"; ?>

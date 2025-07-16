@@ -1,4 +1,4 @@
-<h1>Ejercicio 27</h1>
+<h1>Ejercicio 28</h1>
 <?php
 
     /* Crear un script PHP que inserte 4 registros en la tabla

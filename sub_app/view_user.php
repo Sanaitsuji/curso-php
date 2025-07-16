@@ -1,3 +1,4 @@
+<?php include "includes/redirect.php";?>
 <?php require_once "includes/header.php"; ?>
 
 <?php
@@ -5,39 +6,31 @@ $user_id = isset($_GET['id']) && !empty($_GET['id']) && is_numeric($_GET['id']) 
 
 if(!$user_id){
     echo "<h2>Error: ID de usuario no válido/no encontrado.</h2>";
-    echo "<a href='index.php' class='btn btn-secondary'>Volver</a>";
-} else {
-    $query_select_user = "SELECT * FROM users WHERE id = $user_id;";
-    $user = mysqli_query($database, $query_select_user);
+} 
 
-    if(mysqli_error($database)){
-        echo "<h2>Error al consultar el usuario: " . mysqli_error($database) . "</h2>";
-        echo "<a href='index.php' class='btn btn-secondary'>Volver</a>";
-    }
+$id = $_GET['id'];
+$user_query_sql = "SELECT * FROM users WHERE id = $id;";
+$user_query_result = mysqli_query($database, $user_query_sql);
+$user = mysqli_fetch_assoc($user_query_result);
 
-    if($user && mysqli_num_rows($user) > 0){
-        $user_data = mysqli_fetch_assoc($user);
-        echo "<table class='table'>";
-        echo "  <tr colspan='2'><th>Información del Usuario</th></tr>";
-        echo "  <tr><td>Nombre:</td><td>".$user_data['name']."</td></tr>";
-        echo "  <tr><td>Apellido:</td><td>".$user_data['surname']."</td></tr>";
-        echo "  <tr><td>Email:</td><td>".$user_data['email']."</td></tr>";
-        echo "  <tr><td>Biografía:</td><td>".$user_data['bio']."</td></tr>";
-        echo "  <tr><td>Role:</td>";
-        if($user_data['role'] == 'admin'){
-            echo "<td>Administrador</td></tr>";
-        } else {
-            echo "<td>Usuario</td></tr>";
-        }
-        echo"   <tr><td>Fecha de creación:</td><td>".$user_data['created_at']."</td></tr>";
-        echo "</table>";
+if(!isset($user['id']) || empty($user['id'])){
+    header("Location: index.php");
+} 
 
-        echo "<a href='index.php' class='btn btn-secondary'>Volver</a>";
-    }else{
-        echo "<h2>Error: No se ha encontrado el usuario con el ID $user_id.</h2>";
-        echo "<a href='index.php' class='btn btn-secondary'>Volver</a>";
-    }
-}
 ?>
+
+<?php if( $user["image"] != null ){ ?>
+<div class="col-lg-2">
+        <img src="uploads/<?php echo $user['image'];?>" width="120"/><br/>
+
+</div>
+<?php } ?>
+<div class="col-lg-7">
+    <h3><strong><?php echo $user['name']." ".$user['surname']; ?></strong></h3>
+    <p><strong>Email:</strong> <?php echo $user['email']; ?></p>
+    <p><strong>Biografía:</strong> <?php echo $user['bio']; ?></p>
+</div>
+
+<div class="clearfix"></div>
 
 <?php require_once "includes/footer.php"; ?>

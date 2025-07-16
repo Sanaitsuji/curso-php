@@ -1,4 +1,4 @@
-<h1>Ejercicio 27</h1>
+<h1>Ejercicio 29</h1>
 <?php
 
     /* Haz un listado de los registros de la tabla de la base

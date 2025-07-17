@@ -1,4 +1,10 @@
-<?php include "includes/redirect.php";?>
+<?php 
+include "includes/redirect.php";
+if(!isset($_SESSION['logged']) || $_SESSION['logged']['role'] != 'admin'){
+    header('Location: index.php');
+}
+
+?>
 <?php require_once 'includes/header.php'?>
 
 <?php

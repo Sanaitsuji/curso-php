@@ -6,5 +6,5 @@
 
     Tomar datos de los ejercicios 24, 25, 26, 27, 28, 29, 30 y 31*/
 
-    echo "Para ver el ejercicio 31 ve a /sub_app/edit_user.php";
+    echo "Para ver el ejercicio 32 ve a /sub_app/edit_user.php";
 ?>
